@@ -1,0 +1,9 @@
+### IntelliJ ###
+*.iml
+*.idea
+
+### Maven ###
+target
+
+/node_modules
+/build
