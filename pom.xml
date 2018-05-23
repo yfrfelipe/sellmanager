@@ -30,7 +30,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <name>Provider manager application</name>
+    <name>Sell manager application</name>
     <packaging>jar</packaging>
 
     <dependencies>

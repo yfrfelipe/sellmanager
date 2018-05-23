@@ -12,4 +12,8 @@ public interface SellService extends AbstractService<
         SellUpdateException,
         SellNotFoundException,
         SellDeleteException> {
+
+    void finalizeSell(final Integer id);
+
+    void cancelSell(final Integer id) throws SellUpdateException;
 }
