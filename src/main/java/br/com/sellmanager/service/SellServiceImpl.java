@@ -2,6 +2,7 @@ package br.com.sellmanager.service;
 
 import br.com.sellmanager.dto.sell.ItemDTO;
 import br.com.sellmanager.dto.sell.SellDTO;
+import br.com.sellmanager.dto.sell.SellPageDTO;
 import br.com.sellmanager.exception.southbound.sell.SellCreateException;
 import br.com.sellmanager.exception.southbound.sell.SellDeleteException;
 import br.com.sellmanager.exception.southbound.sell.SellNotFoundException;
@@ -12,12 +13,18 @@ import br.com.sellmanager.model.sell.Sell;
 import br.com.sellmanager.model.sell.SellStatus;
 import br.com.sellmanager.persistence.SellPersistence;
 import br.com.sellmanager.service.converter.SellConverter;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,7 +45,7 @@ public class SellServiceImpl implements SellService {
     private static final String SELL_NOT_FOUND_MESSAGE = "There's no sell with ID %s";
 
     @Override
-    public void create(final SellDTO entityDTO) throws SellCreateException {
+    public SellDTO create(final SellDTO entityDTO) throws SellCreateException {
         final Sell sell = sellConverter.fromDto(entityDTO);
         final UUID reservationId = UUID.randomUUID();
         final Reservation reservation = new Reservation();
@@ -48,9 +55,10 @@ public class SellServiceImpl implements SellService {
 
         sell.setTimestamp(System.currentTimeMillis());
         sell.setReservation(reservation);
+        sell.setSellStatus(SellStatus.IN_PROGRESS);
 
         reservationService.reserveItems(reservationId, extractProductByQuantity(entityDTO.getItemsDTO()));
-        sellPersistence.save(sell);
+        return sellConverter.toDto(sellPersistence.save(sell));
     }
 
     @Override
@@ -105,6 +113,26 @@ public class SellServiceImpl implements SellService {
         sell.setTimestamp(System.currentTimeMillis());
         sell.setSellStatus(SellStatus.CANCELED);
         sellPersistence.save(sell);
+    }
+
+    @Override
+    public SellPageDTO listByQuantity(final Integer quantity) {
+        final Sort sort = Sort.by(new Sort.Order(Sort.Direction.ASC, "timestamp"));
+        final Pageable pageable = PageRequest.of(0, quantity, sort);
+        final Page<Sell> page = sellPersistence.findAll(pageable);
+
+        final SellPageDTO sellPageDTO = new SellPageDTO();
+
+        final List<SellDTO> sellDTOS= Lists.newArrayList();
+
+        for (Sell product : page.getContent()) {
+            sellDTOS.add(sellConverter.toDto(product));
+        }
+
+        sellPageDTO.setContent(sellDTOS);
+        sellPageDTO.setTotalElements(page.getTotalElements());
+        sellPageDTO.setTotalPages(page.getTotalPages());
+        return sellPageDTO;
     }
 
     private Map<Integer, Integer> extractProductByQuantity(final Set<ItemDTO> itens) {

@@ -13,7 +13,7 @@ public interface AbstractService<
         R extends AbstractRetrievereException,
         D extends AbstractDeleteException> extends AutoCloseable {
 
-    void create(T entityDTO) throws C;
+    T create(T entityDTO) throws C;
 
     T retrieve(Integer id) throws R;
 

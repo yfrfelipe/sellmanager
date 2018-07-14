@@ -1,6 +1,7 @@
 package br.com.sellmanager.control.sell;
 
 import br.com.sellmanager.dto.sell.SellDTO;
+import br.com.sellmanager.dto.sell.SellPageDTO;
 import br.com.sellmanager.service.SellService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,6 +61,13 @@ public class SellControl implements SellWebService {
     @Override
     public void delete(@PathVariable final Integer id) {
         sellServiceImpl.delete(id);
+    }
+
+    @GetMapping(path = "/list")
+    @ApiOperation(value = "List sells by quantity.")
+    @Override
+    public SellPageDTO listByQuantity(@RequestParam final Integer quantity) {
+        return sellServiceImpl.listByQuantity(quantity);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package br.com.sellmanager.service;
 
 import br.com.sellmanager.dto.sell.SellDTO;
+import br.com.sellmanager.dto.sell.SellPageDTO;
 import br.com.sellmanager.exception.southbound.sell.SellCreateException;
 import br.com.sellmanager.exception.southbound.sell.SellDeleteException;
 import br.com.sellmanager.exception.southbound.sell.SellNotFoundException;
@@ -16,4 +17,6 @@ public interface SellService extends AbstractService<
     void finalizeSell(final Integer id);
 
     void cancelSell(final Integer id) throws SellUpdateException;
+
+    SellPageDTO listByQuantity(Integer quantity);
 }

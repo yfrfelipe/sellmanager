@@ -21,13 +21,12 @@ public class ProductClient implements ProductClientService, Consumer<String> {
 
     @Override
     public void reserve(final UUID reservationID, final Map<Integer, Integer> productByQuantity) {
-        //TODO: Create a reservation
         sendPutRequest(reservationID, "/reserve");
     }
 
     @Override
-    public void cancelReservation(UUID reservationID) {
-
+    public void cancelReservation(final UUID reservationID) {
+        sendPutRequest(reservationID, "/reservation/cancel");
     }
 
     @Override
