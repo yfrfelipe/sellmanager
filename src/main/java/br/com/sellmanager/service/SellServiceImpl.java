@@ -116,22 +116,40 @@ public class SellServiceImpl implements SellService {
     }
 
     @Override
-    public SellPageDTO listByQuantity(final Integer quantity) {
-        final Sort sort = Sort.by(new Sort.Order(Sort.Direction.ASC, "timestamp"));
-        final Pageable pageable = PageRequest.of(0, quantity, sort);
+    public SellPageDTO listByQuantity(final Integer quantity, final Integer pageNum) {
+        final Pageable pageable = buildTimestampPageable(quantity, pageNum);
         final Page<Sell> page = sellPersistence.findAll(pageable);
 
-        final SellPageDTO sellPageDTO = new SellPageDTO();
+        return buildSellPageDTO(page);
+    }
 
-        final List<SellDTO> sellDTOS= Lists.newArrayList();
+    @Override
+    public SellPageDTO listBy(final String timestamp, final Integer quantity, final Integer pageNum) {
+        final Pageable pageable = buildTimestampPageable(quantity, pageNum);
+        final Page<Sell> page = sellPersistence.findSellByTimestamp(Long.valueOf(timestamp), pageable);
+        return buildSellPageDTO(page);
+    }
 
-        for (Sell product : page.getContent()) {
-            sellDTOS.add(sellConverter.toDto(product));
+    private Pageable buildTimestampPageable(final Integer quantity, final Integer pagegNum) {
+        final Sort sort = Sort.by(new Sort.Order(Sort.Direction.ASC, "timestamp"));
+        final Pageable pageable = PageRequest.of(pagegNum, quantity, sort);
+
+        return pageable;
+    }
+
+    private SellPageDTO buildSellPageDTO(final Page<Sell> page) {
+        final List<SellDTO> sellDTOS = Lists.newArrayList();
+
+        for (Sell sell : page.getContent()) {
+            sellDTOS.add(sellConverter.toDto(sell));
         }
 
+        final SellPageDTO sellPageDTO = new SellPageDTO();
         sellPageDTO.setContent(sellDTOS);
         sellPageDTO.setTotalElements(page.getTotalElements());
         sellPageDTO.setTotalPages(page.getTotalPages());
+        sellPageDTO.setCurrentPage(page.getPageable().getPageNumber());
+
         return sellPageDTO;
     }
 

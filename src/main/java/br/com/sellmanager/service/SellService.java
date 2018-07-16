@@ -14,9 +14,11 @@ public interface SellService extends AbstractService<
         SellNotFoundException,
         SellDeleteException> {
 
-    void finalizeSell(final Integer id);
+    void finalizeSell(Integer id);
 
-    void cancelSell(final Integer id) throws SellUpdateException;
+    void cancelSell(Integer id) throws SellUpdateException;
 
-    SellPageDTO listByQuantity(Integer quantity);
+    SellPageDTO listByQuantity(Integer quantity, Integer pageNum);
+
+    SellPageDTO listBy(String timestamp, Integer quantity, Integer pageNum);
 }

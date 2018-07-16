@@ -66,8 +66,17 @@ public class SellControl implements SellWebService {
     @GetMapping(path = "/list")
     @ApiOperation(value = "List sells by quantity.")
     @Override
-    public SellPageDTO listByQuantity(@RequestParam final Integer quantity) {
-        return sellServiceImpl.listByQuantity(quantity);
+    public SellPageDTO listByQuantity(@RequestParam final Integer quantity, @RequestParam final Integer pageNum) {
+        return sellServiceImpl.listByQuantity(quantity, pageNum);
+    }
+
+    @GetMapping(path = "/list/date")
+    @ApiOperation(value = "List sells by timestamp.")
+    @Override
+    public SellPageDTO listBy(@RequestParam final String timestamp,
+                              @RequestParam final Integer quantity,
+                              @RequestParam final Integer pageNum) {
+        return sellServiceImpl.listBy(timestamp, quantity, pageNum);
     }
 
     @Override

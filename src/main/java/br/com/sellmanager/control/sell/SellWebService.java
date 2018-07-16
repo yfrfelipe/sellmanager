@@ -6,5 +6,7 @@ import br.com.sellmanager.dto.sell.SellPageDTO;
 
 public interface SellWebService extends AbstractWebService<SellDTO> {
 
-    SellPageDTO listByQuantity(Integer quantity);
+    SellPageDTO listByQuantity(Integer quantity, Integer pageNum);
+
+    SellPageDTO listBy(String timestamp, Integer quantity, Integer pageNum);
 }

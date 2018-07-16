@@ -24,4 +24,7 @@ public class SellPageDTO extends AbstractPageDTO {
     @Getter
     @NonNull
     private List<SellDTO> content;
+    @Getter
+    @NonNull
+    private Integer currentPage;
 }
