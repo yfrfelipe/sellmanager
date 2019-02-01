@@ -35,7 +35,6 @@ public class ProductClient implements ProductClientService, Consumer<String> {
     }
 
     public void getProduct() {
-//        LOG.info("Setting product down in stock");
         final StringBuffer buffer = new StringBuffer();
         buffer.append(BASIC_URI);
         buffer.append("/down");
