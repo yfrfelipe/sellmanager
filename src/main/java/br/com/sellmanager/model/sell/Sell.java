@@ -1,12 +1,16 @@
 package br.com.sellmanager.model.sell;
 
 import br.com.sellmanager.model.AbstractEntity;
-import java.util.Date;
+import br.com.sellmanager.model.reservation.Reservation;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,7 +34,38 @@ public class Sell extends AbstractEntity {
     @NonNull
     private Integer id;
 
-//    private Date date;
-//
-//    private Integer plots;
+    @Getter
+    @Column(nullable = false, updatable = false)
+    @NonNull
+    private Long timestamp;
+
+    @Getter
+    @Column(nullable = false, updatable = false)
+    @NonNull
+    private Integer plots;
+
+    @Getter
+    @Column(nullable = false, updatable = false)
+    @NonNull
+    private Integer customerID;
+
+    @Getter
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @NonNull
+    private Set<Item> items;
+
+    @Getter
+    @Column(nullable = false)
+    @NonNull
+    private SellStatus sellStatus;
+
+    @Getter
+    @Column(nullable = false, updatable = false)
+    @NonNull
+    private SellType sellType;
+
+    @Getter
+    @Column(nullable = false, updatable = false)
+    @NonNull
+    private Reservation reservation;
 }

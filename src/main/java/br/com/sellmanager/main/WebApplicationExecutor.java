@@ -15,7 +15,7 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@ComponentScan({"br.com.sellmanager.control", "br.com.sellmanager.external"})
+@ComponentScan({"br.com.sellmanager.control", "br.com.sellmanager.external", "br.com.sellmanager.service"})
 @EnableJpaRepositories(basePackages = {"br.com.sellmanager.persistence"})
 @EntityScan("br.com.sellmanager.model")
 @EnableWebFlux

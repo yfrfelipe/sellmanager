@@ -1,6 +1,7 @@
-package br.com.sellmanager.model.sell;
+package br.com.sellmanager.model.reservation;
 
 import br.com.sellmanager.model.AbstractEntity;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,33 +15,29 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-@Entity(name = "tb_item")
+
+@Entity(name = "tb_reservation")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Item extends AbstractEntity {
+public class Reservation extends AbstractEntity {
 
     @Id
     @Getter
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "item_gen", sequenceName = "item_seq")
+    @SequenceGenerator(name = "reservation_gen", sequenceName = "reservation_seq")
     @Column(nullable = false, updatable = false)
     @NonNull
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @Getter
     @NonNull
-    private Integer productId;
+    private UUID transactionID;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @Getter
     @NonNull
-    private Float price;
-
-    @Column(nullable = false)
-    @Getter
-    @NonNull
-    private Integer discount;
+    private Long timestamp;
 }
