@@ -4,20 +4,18 @@ import br.com.sellmanager.dto.AbstractDTO;
 import br.com.sellmanager.exception.southbound.AbstractCreateException;
 import br.com.sellmanager.exception.southbound.AbstractDeleteException;
 import br.com.sellmanager.exception.southbound.AbstractRetrievereException;
-import br.com.sellmanager.exception.southbound.AbstractUpdateException;
 
 public interface AbstractService<
         T extends AbstractDTO,
+        E extends AbstractDTO,
+        I,
         C extends AbstractCreateException,
-        U extends AbstractUpdateException,
         R extends AbstractRetrievereException,
         D extends AbstractDeleteException> extends AutoCloseable {
 
     T create(T entityDTO) throws C;
 
-    T retrieve(Integer id) throws R;
+    E retrieve(I id) throws R;
 
-    void update(Integer id, T entityDTO) throws U;
-
-    void delete(Integer id) throws D;
+    void delete(I id) throws D;
 }

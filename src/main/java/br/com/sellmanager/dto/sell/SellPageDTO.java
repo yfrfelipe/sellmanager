@@ -23,7 +23,7 @@ public class SellPageDTO extends AbstractPageDTO {
     private Integer totalPages;
     @Getter
     @NonNull
-    private List<SellDTO> content;
+    private List<SellInProgressDTO> content;
     @Getter
     @NonNull
     private Integer currentPage;

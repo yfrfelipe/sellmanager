@@ -2,7 +2,7 @@ package br.com.sellmanager.control;
 
 import br.com.sellmanager.dto.AbstractDTO;
 
-public interface AbstractWebService <T extends AbstractDTO> extends AutoCloseable {
+public interface AbstractWebService <T extends AbstractDTO, E extends AbstractDTO, I> extends AutoCloseable {
 
     /**
      * This method is responsible to receive a DTO to be created.
@@ -12,9 +12,9 @@ public interface AbstractWebService <T extends AbstractDTO> extends AutoCloseabl
     /**
      * This method is responsble to retrieve a given data.
      */
-    T get(Integer id);
+    E get(I id);
 
-    void put(Integer id, T modelDTO);
+    void put(I id, T modelDTO);
 
-    void delete(Integer id);
+    void delete(I id);
 }
